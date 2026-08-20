@@ -29,6 +29,7 @@ router.get("/:id", async (req: Request, res: Response) => {
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Customer not found" });
     }
+    
 
     res.json(result.rows[0]);
   } catch (error) {
@@ -98,4 +99,3 @@ router.delete('/:id', async (req: Request, res: Response) => {
 })
 
 export default router;
-

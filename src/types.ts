@@ -25,3 +25,15 @@ export interface Order_item {
     quantity: number;
     discount: number;
 }
+
+export interface Vendor {
+    vendor_id: number;
+    vendor_name: string;
+    city: string;
+}
+
+export interface Supplies {
+    vendor_id: number;
+    product_id: number;
+    stock_quantity: number;
+}
