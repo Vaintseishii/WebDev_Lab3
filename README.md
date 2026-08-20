@@ -8,25 +8,23 @@ By: Xanth Reign Palmes
 - PostgreSQL
 - Git
 
-## Clone the Repository
-From your terminal, run:
+## Clone and Set Up the Repository
+Open a terminal and clone the repository:
 
 ```bash
-git clone https://github.com/<your-username>/ecommerce-logistics-api.git
-cd ecommerce-logistics-api
+git clone https://github.com/Vaintseishii/WebDev_Lab3.git
+cd WebDev_Lab3
 ```
 
-Replace `<your-username>` with the GitHub username or repository path you are cloning from.
-
-## Install Dependencies
-Once inside the project folder, install the required packages:
+Install the project dependencies from the repository directory:
 
 ```bash
 npm install
 ```
 
 ## Environment Variables
-Make a .env file with these values
+Create a `.env` file in the project root and add the following values. Replace
+`your_postgres_password` with the password for your local PostgreSQL user:
 
 ```env
 PORT=3000
@@ -38,13 +36,13 @@ PGDATABASE=ecommerce_logistics
 ```
 
 
-## Set Up PostgreSQL
-Make sure PostgreSQL is running locally, then create the database used by the app:
+## Set Up the Database
+Make sure PostgreSQL is installed and running, then create the database used by
+the app:
 
 ```bash
 createdb ecommerce_logistics
 ```
-
 
 ## Start the Development Server
 Run:
@@ -62,16 +60,36 @@ http://localhost:3000
 ```
 
 ## Available Routes
-The project currently enables the customer route by default:
+All routes are enabled by default. The API base URL is
+`http://localhost:3000/api/v1`.
 
-- `/api/v1/customers`
+### Customers
+- `GET /customers` - List all customers
+- `GET /customers/:id` - Get a customer by ID
+- `POST /customers` - Create a customer
+- `PUT /customers/:id` - Update a customer's city or membership level
+- `DELETE /customers/:id` - Delete a customer
 
-Additional routes are defined in the project but may be commented out in `src/index.ts` depending on what you want to enable during development.
+### Products
+- `GET /products` - List all products; optionally filter by category with `?category=value`
+- `GET /products/:id` - Get a product by ID
+- `POST /products` - Create a product
+- `PATCH /products/:id/price` - Update a product's unit price
 
-## Notes
-- The server uses Express and PostgreSQL.
-- The main entry point is `src/index.ts`.
-- Database configuration is handled in `src/db.ts`.
+### Orders
+- `GET /orders` - List all orders
+- `GET /orders/customer/:customer_id` - List orders for a customer
+- `POST /orders` - Create an order
+- `DELETE /orders/:id` - Delete an order
 
-If you run into connection issues, check that PostgreSQL is running and that the `.env` values match your local database configuration.
+### Order Items
+- `GET /order_items/:orderId` - List items in an order
+- `POST /order_items` - Add an item to an order
+
+### Vendors
+- `GET /vendors` - List all vendors
+
+### Supplies
+- `GET /supplies/vendor/:vendorId` - List supplies for a vendor
+- `PUT /supplies/:vendorId/:productId` - Update a supply stock quantity
 
