@@ -11,3 +11,10 @@ export interface Product {
     category: string;
     unit_price: number;
 }
+
+export interface Order {
+    order_id: number;
+    customer_id: number;
+    order_date: string;
+    shipping_city: string;
+}
