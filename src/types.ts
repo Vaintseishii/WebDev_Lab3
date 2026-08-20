@@ -4,3 +4,10 @@ export interface Customer {
     city: string;
     membership_level: string;
 }
+
+export interface Product {
+    product_id: number;
+    product_name: string;
+    category: string;
+    unit_price: number;
+}
