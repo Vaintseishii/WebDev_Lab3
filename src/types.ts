@@ -18,3 +18,10 @@ export interface Order {
     order_date: string;
     shipping_city: string;
 }
+
+export interface Order_item {
+    order_id: number;
+    product_id: number;
+    quantity: number;
+    discount: number;
+}
