@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { pool } from "../db";
-import { Customer, Product } from "../types";
+import { Product } from "../types";
 
 const router = Router();
 
@@ -48,7 +48,11 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 // POST /api/v1/products
 router.post("/", async(req: Request, res: Response) => {
-    const { product_id, product_name, category, unit_price }: Product = req.body;
+    const { product_id, product_name, category, unit_price } = req.body as Partial<Product>;
+    if (!product_id || !product_name || typeof unit_price !== "number") {
+      return res.status(400).json({ error: "product_id, product_name, and numeric unit_price are required" });
+    }
+
     try {
         const result = await pool.query(
             `INSERT INTO product (product_id, product_name, category, unit_price)
@@ -58,7 +62,14 @@ router.post("/", async(req: Request, res: Response) => {
         );
         res.status(201).json(result.rows[0]);
     } catch (error) {
-        res.status(500).json({ error: (error as Error).message });
+        const err = error as { code?: string; message: string };
+        if (err.code === "23505") {
+          return res.status(400).json({ error: "product_id already exists" });
+        }
+        if (err.code === "23502") {
+          return res.status(400).json({ error: "product_name is required" });
+        }
+        res.status(500).json({ error: err.message });
     }
 });
 

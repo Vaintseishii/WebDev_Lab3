@@ -83,8 +83,8 @@ All routes are enabled by default. The API base URL is
 - `DELETE /orders/:id` - Delete an order
 
 ### Order Items
-- `GET /order_items/:orderId` - List items in an order
-- `POST /order_items` - Add an item to an order
+- `GET /order-items/:orderId` - List items in an order
+- `POST /order-items` - Add an item to an order
 
 ### Vendors
 - `GET /vendors` - List all vendors

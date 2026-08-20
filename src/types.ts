@@ -1,39 +1,39 @@
 export interface Customer {
-    customer_id: number;
+    customer_id: string;
     customer_name: string;
     city: string;
     membership_level: string;
 }
 
 export interface Product {
-    product_id: number;
+    product_id: string;
     product_name: string;
     category: string;
     unit_price: number;
 }
 
 export interface Order {
-    order_id: number;
-    customer_id: number;
+    order_id: string;
+    customer_id: string;
     order_date: string;
     shipping_city: string;
 }
 
 export interface Order_item {
-    order_id: number;
-    product_id: number;
+    order_id: string;
+    product_id: string;
     quantity: number;
     discount: number;
 }
 
 export interface Vendor {
-    vendor_id: number;
+    vendor_id: string;
     vendor_name: string;
     city: string;
 }
 
 export interface Supplies {
-    vendor_id: number;
-    product_id: number;
+    vendor_id: string;
+    product_id: string;
     stock_quantity: number;
 }

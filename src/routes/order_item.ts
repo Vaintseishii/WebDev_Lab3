@@ -21,7 +21,11 @@ router.get("/:orderId", async (req: Request, res: Response) => {
 
 // POST /api/v1/order-items
 router.post("/", async (req: Request, res: Response) => {
-  const { order_id, product_id, quantity, discount }: Order_item = req.body;
+  const { order_id, product_id, quantity, discount } = req.body as Partial<Order_item>;
+  if (!order_id || !product_id || typeof quantity !== "number" || typeof discount !== "number") {
+    return res.status(400).json({ error: "order_id, product_id, numeric quantity, and numeric discount are required" });
+  }
+
   try {
     const result = await pool.query<Order_item>(
       `INSERT INTO order_item (order_id, product_id, quantity, discount)

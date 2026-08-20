@@ -39,7 +39,11 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 // POST /api/v1/customers
 router.post("/", async(req: Request, res: Response) => {
-    const { customer_id, customer_name, city, membership_level }: Customer = req.body;
+    const { customer_id, customer_name, city, membership_level } = req.body as Partial<Customer>;
+    if (!customer_id || !customer_name) {
+      return res.status(400).json({ error: "customer_id and customer_name are required" });
+    }
+
     try {
         const result = await pool.query(
             `INSERT INTO customer (customer_id, customer_name, city, membership_level)
@@ -49,7 +53,14 @@ router.post("/", async(req: Request, res: Response) => {
         );
         res.status(201).json(result.rows[0]);
     } catch (error) {
-        res.status(500).json({ error: (error as Error).message });
+        const err = error as { code?: string; message: string };
+        if (err.code === "23505") {
+          return res.status(400).json({ error: "customer_id already exists" });
+        }
+        if (err.code === "23502") {
+          return res.status(400).json({ error: "customer_name is required" });
+        }
+        res.status(500).json({ error: err.message });
     }
 });
 
@@ -57,6 +68,10 @@ router.post("/", async(req: Request, res: Response) => {
 router.put("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
   const { city, membership_level }: Partial<Customer> = req.body;
+
+  if (city === undefined && membership_level === undefined) {
+    return res.status(400).json({ error: "city or membership_level is required" });
+  }
 
   try {
     const result = await pool.query<Customer>(
@@ -94,7 +109,11 @@ router.delete('/:id', async (req: Request, res: Response) => {
         }
         res.json(result.rows[0]);
     } catch (error) {
-        res.status(500).json({ error: (error as Error).message });
+        const err = error as { code?: string; message: string };
+        if (err.code === "23503") {
+          return res.status(400).json({ error: "Customer cannot be deleted because it has orders" });
+        }
+        res.status(500).json({ error: err.message });
     }
 })
 
