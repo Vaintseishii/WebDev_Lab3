@@ -1,5 +1,5 @@
 # WebDev Lab 3
 
-Xanth Reign Palmes
+By: Xanth Reign Palmes
 
-## Setup
+## Project Setup
